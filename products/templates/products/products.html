@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+{% load static %}
+    {% block content %}
+    <!-- Header résultats-->
+    <section class="page-section bg-dark text-white">
+      <div class="container px-3 px-lg-4 text-center">
+          <textarea disabled id="results-area" style="resize: none"></textarea>
+      </div>
+    </section>
+    <!-- Résultats recherche-->
+    <section class="page-section">
+      <div class="container px-4 px-lg-5">
+        <h3 class="text-center mt-0">Vous pouvez remplacer cet aliment par:</h3>
+        <hr class="divider" />
+          <div class="row gx-2 gx-lg-3">
+            {% if found_substitute %}
+              {% for substitute in found_substitute %}
+                <div class="col-md-4 text-center">
+                    <div class="mt-5">
+                      <img alt="Produit" src={{ substitute.img_url }} width="200" height="200"/>
+                      <h5 class="mb-2 mt-2"><a href="/products/{{ substitute.id }}/">{{ substitute.product_name }}</a></h5>
+                      {% if substitute.nutriscore == 'A' %}
+                      <p><img alt="Nutriscore" src='{% static "assets/img/nutria.png" %}' width=30% height=30%/></p>
+                      {% elif substitute.nutriscore == 'B'%}
+                      <p><img alt="Nutriscore" src='{% static "assets/img/nutrib.png" %}' width=30% height=30%/></p>
+                      {% elif substitute.nutriscore == 'C'%}
+                      <p><img alt="Nutriscore" src='{% static "assets/img/nutric.png" %}' width=30% height=30%/></p>
+                      {% elif substitute.nutriscore == 'D'%}
+                      <p><img alt="Nutriscore" src='{% static "assets/img/nutrid.png" %}' width=30% height=30%/></p>
+                      {% elif substitute.nutriscore == 'E'%}
+                      <p><img alt="Nutriscore" src='{% static "assets/img/nutrie.png" %}' width=30% height=30%/></p>
+                      {% endif %}
+                      {% if user.is_authenticated %}
+                        <a href="{% url 'save' product_id=substitute.id %}">
+                          <i class="far fa-save"></i>
+                        </a>
+                        {% for message in messages %}
+                            <p class="mt-2">{{message}}</p>
+                        {% endfor %}
+                      {% endif %}
+                    </div>
+                </div>
+                {% endfor %}
+              {% else %}
+                <p>Il n'y a pas de substitut disponible.</p>
+            {% endif %}
+          </div>
+      </div>
+    </section>
+  {% endblock %}

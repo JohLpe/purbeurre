@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+{% load static %}
+    {% block content %}
+    <!-- Header-->
+    <section class="page-section bg-dark text-white">
+      <div class="container px-3 px-lg-4 text-center">
+        <h2 class="mt-0">{{ substitute.product_name }}</h2>
+      </div>
+    </section>
+    <!-- Détails du produit-->
+    <section class="page-section" id='product-details'>
+        <div class="container">
+                {% if substitute %}
+            <div class="text-center mb-5">
+                <img alt="Produit" src={{ substitute.img_url }} width=auto height=auto/>
+            </div>
+            <div class="text-center mb-5">
+                {% if substitute.nutriscore == 'A' %}
+                <p><img alt="Nutriscore" src='{% static "assets/img/nutria.png" %}' width=auto height=auto/></p>
+                {% elif substitute.nutriscore == 'B'%}
+                <p><img alt="Nutriscore" src='{% static "assets/img/nutrib.png" %}' width=auto height=auto/></p>
+                {% elif substitute.nutriscore == 'C'%}
+                <p><img alt="Nutriscore" src='{% static "assets/img/nutric.png" %}' width=auto height=auto/></p>
+                {% elif substitute.nutriscore == 'D'%}
+                <p><img alt="Nutriscore" src='{% static "assets/img/nutrid.png" %}' width=auto height=auto/></p>
+                {% elif substitute.nutriscore == 'E'%}
+                <p><img alt="Nutriscore" src='{% static "assets/img/nutrie.png" %}' width=auto height=auto/></p>
+                {% endif %}
+                <hr class="divider" />
+                  <h5 class="mt-5 mb-4">Valeurs nutritionelles pour 100g</h5>
+                  <table class="mb-5" style="margin-left: auto; margin-right: auto;">
+                      <tr>
+                        <th style="text-align: left;">Composition</th>
+                        <th style="text-align: right;">Valeur</th>
+                      </tr>
+                      {% for key, value in nutriments.items %}
+                      <tr>
+                        <td style="text-align: left;">{{ key }}</td>
+                        <td style="text-align: right;">{{ value }}</td>
+                      </tr>
+                      {% endfor %}
+                    </table>
+                    <hr class="divider" />
+                <h6 class="mb-2 mt-2"><a href={{substitute.off_url}}>Fiche OpenFoodFacts</a></h6>
+            </div>
+            {% else %}
+            <p class='justify-content-center'>Il n'y a pas de substitut disponible.</p>
+            {% endif %}
+        </div>
+    </section>
+    {% endblock %}

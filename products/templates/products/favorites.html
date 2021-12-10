@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+{% load static %}
+    {% block content %}
+    <!-- Header résultats-->
+    <section class="page-section bg-dark text-white">
+    </section>
+    <!-- Afficha des favoris-->
+    <section class="page-section">
+      <div class="container px-4 px-lg-5">
+        <h3 class="text-center mt-0">Voici vos aliments préférés:</h3>
+        <hr class="divider" />
+          <div class="row gx-2 gx-lg-3">
+            {% if fav_subs %}
+              {% for sub in fav_subs %}
+                <div class="col-md-4 text-center">
+                    <div class="mt-5">
+                      <img alt="Produit" src={{ sub.product.img_url }} width="200" height="200"/>
+                      <h5 class="mb-2 mt-2"><a href="/products/{{ sub.product.id }}/">{{ sub.product.product_name }}</a></h5>
+                      {% if sub.product.nutriscore == 'A' %}
+                      <p><img alt="Nutriscore" src='{% static "assets/img/nutria.png" %}' width=30% height=30%/></p>
+                      {% elif sub.product.nutriscore == 'B'%}
+                      <p><img alt="Nutriscore" src='{% static "assets/img/nutrib.png" %}' width=30% height=30%/></p>
+                      {% elif sub.product.nutriscore == 'C'%}
+                      <p><img alt="Nutriscore" src='{% static "assets/img/nutric.png" %}' width=30% height=30%/></p>
+                      {% elif sub.product.nutriscore == 'D'%}
+                      <p><img alt="Nutriscore" src='{% static "assets/img/nutrid.png" %}' width=30% height=30%/></p>
+                      {% elif sub.product.nutriscore == 'E'%}
+                      <p><img alt="Nutriscore" src='{% static "assets/img/nutrie.png" %}' width=30% height=30%/></p>
+                      {% endif %}
+                      <a href="{% url 'del_fav' product_id=sub.product.id %}">
+                        <i class="far fa-trash-alt"></i>
+                      </a>
+                    </div>
+                </div>
+                {% endfor %}
+              {% else %}
+                <p class="text-center">Vous n'avez pas de favoris pour le moment.</p>
+            {% endif %}
+          </div>
+      </div>
+    </section>
+    {% endblock %}
