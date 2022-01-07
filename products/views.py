@@ -16,7 +16,7 @@ def search_sub(request):
         queryset_list = Product.objects.filter(**{filter_type: keyword})
         context = {'found_substitute': queryset_list}
     except Product.DoesNotExist:
-        raise Http404("Ce produit n'existe pas.")
+        raise Http404("Aucun produit n'a été trouvé.")
     return render(request, 'products/products.html', context)
 
 

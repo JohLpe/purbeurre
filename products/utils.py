@@ -1,8 +1,8 @@
 import requests
-from django import forms
 
 
 class AddProduct():
+    """Fetch results from OpenFoodFacts API"""
 
     def __init__(self):
 
