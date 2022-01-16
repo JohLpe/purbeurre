@@ -1,6 +1,5 @@
-from django.contrib.auth.models import User
-from django.http import Http404, HttpResponse
-from django.shortcuts import get_object_or_404, render, redirect
+from django.http import Http404
+from django.shortcuts import render, redirect
 from ast import literal_eval
 from django.contrib import messages
 
@@ -41,11 +40,15 @@ def save_sub(request, product_id):
     """Saves a product to the user's favorites"""
 
     try:
-        sub = Product.objects.get(id=product_id)
-        Favorite.objects.create(user=request.user, product=sub)
-        messages.success(request, 'Votre produit a bien été sauvegardé dans vos favoris!')
+        user = request.user
+        if user.is_authenticated:
+            sub = Product.objects.get(id=product_id)
+            Favorite.objects.create(user=request.user, product=sub)
+            messages.success(request, 'Votre produit a bien été sauvegardé dans vos favoris!')
+        else:
+            raise Exception 
     except Exception as e:
-        messages.error(request, 'Ce produit est déjà enregistré dans vos favoris!')
+        raise Http404("Aucune page n'a été trouvé.")
     return redirect('favorites')
 
 
@@ -53,17 +56,26 @@ def favorite_sub(request):
     """Render user's saved products"""
 
     try:
-        fav_subs = Favorite.objects.filter(user=request.user)
-        context = {'fav_subs': fav_subs}
-    except Exception as e:
-        messages.error(request, "Vous n'avez pas de produits enregistrés pour le moment!")
+        user = request.user
+        if user.is_authenticated:
+            fav_subs = Favorite.objects.filter(user=request.user)
+            context = {'fav_subs': fav_subs}
+        else:
+            raise Exception
+    except Exception:
+        raise Http404("Aucune page n'a été trouvé.")
     return render(request, 'products/favorites.html', context)
 
+
 def delete_fav(request, product_id):
-    """Render user's saved products"""
+    """Render user's saved products after deleting"""
 
     try:
-        Favorite.objects.filter(user=request.user, product=product_id).delete()
+        user = request.user
+        if user.is_authenticated:
+            Favorite.objects.filter(user=request.user, product=product_id).delete()
+        else:
+            raise Exception
     except Exception as e:
-        messages.error(request, "Vous n'avez pas de produits enregistrés pour le moment!")
+        raise Http404("Aucune page n'a été trouvé.")
     return redirect('favorites')
