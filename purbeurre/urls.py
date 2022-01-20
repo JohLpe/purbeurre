@@ -17,6 +17,10 @@ from django.contrib import admin
 from django.urls import include, path
 from . import views
 
+handler404 = 'purbeurre.views.error_404'
+
+handler500 = 'purbeurre.views.error_500'
+
 urlpatterns = [
     path('', views.index, name='homepage'),
     path('admin/', admin.site.urls),

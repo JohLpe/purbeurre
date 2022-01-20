@@ -1,3 +1,4 @@
+from email import message
 from django.http import Http404
 from django.shortcuts import render, redirect
 from ast import literal_eval
@@ -31,7 +32,7 @@ def sub_details(request, product_id):
             nutriments[i] = nutri_dict[i]
         context = {'substitute': sub, 'nutriments': nutriments}
     except Product.DoesNotExist:
-        raise Http404("Ce produit n'existe pas.")
+        raise message("Ce produit n'existe pas.")
     return render(request, 'products/product_details.html',
                   context)
 
@@ -73,7 +74,8 @@ def delete_fav(request, product_id):
     try:
         user = request.user
         if user.is_authenticated:
-            Favorite.objects.filter(user=request.user, product=product_id).delete()
+            Favorite.objects.filter(user=request.user,
+                                    product=product_id).delete()
         else:
             raise Exception
     except Exception as e:
