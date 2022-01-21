@@ -48,7 +48,7 @@ class ModelsTests(TestCase):
         p = self.create_product_model()
         u = User.objects.create_user('usertest',
                                      'myemail@test.com', 'testpwd')
-        f = Favorite.objects.create(products=p, user=u)
+        f = Favorite.objects.create(product=p, user=u)
         after_creation = Favorite.objects.count()
         self.assertTrue(isinstance(f, Favorite))
         self.assertEqual(after_creation, before_creation+1)

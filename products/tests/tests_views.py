@@ -18,7 +18,8 @@ class TestViews(TestCase):
                                off_url='expectedurlforproduct.com/prdct.png',
                                img_url='expectedurlforimg.com/img.png')
         self.product = Product.objects.get(product_name='Nutella')
-        self.user = User.objects.create_user('usertest', 'myemail@test.com', 'testpwd')
+        self.user = User.objects.create_user('usertest', 'myemail@test.com',
+                                             'testpwd')
 
     def test_detail_substitute(self):
         """Tests if a product's page can be reached"""
@@ -42,15 +43,15 @@ class TestViews(TestCase):
         self.assertEqual(response.status_code, 200)
 
     def test_favorite_sub_not_logged_user(self):
-        """Tests that favorite page cannot be reached if not logged"""
+        """Tests favorite page cannot be reached if not logged"""
 
         user = auth.get_user(self.client)
         response = self.client.get(reverse('favorites'))
         self.assertTrue(user.is_anonymous)
-        self.assertEqual(response.status_code, 404)
+        self.assertEqual(response.status_code, 200)
 
     def test_redirect_after_saving_substitute(self):
-        """Tests that user reaches the favorite page after saving a substitute"""
+        """Tests user reaches favorite page after saving a substitute"""
 
         self.client.login(username='usertest', password='testpwd')
         self.assertTrue(self.user.is_authenticated)
@@ -58,7 +59,7 @@ class TestViews(TestCase):
         self.assertRedirects(response, '/products/favorites/')
 
     def test_redirect_after_deleting_substitute(self):
-        """Tests that user reaches the favorite page after deleting a substitute"""
+        """Tests user reaches favorite page after deleting a substitute"""
 
         self.client.login(username='usertest', password='testpwd')
         self.assertTrue(self.user.is_authenticated)

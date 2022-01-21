@@ -1,6 +1,6 @@
+from django.http import Http404
 from django.shortcuts import render, redirect
 from ast import literal_eval
-# from django.contrib import messages
 
 from .models import Product, Favorite
 
@@ -13,8 +13,8 @@ def search_sub(request):
         keyword = request.GET.get('q')
         queryset_list = Product.objects.filter(**{filter_type: keyword})
         context = {'found_substitute': queryset_list}
-    except Exception as e:
-        print(e)
+    except Exception:
+        raise Http404
     return render(request, 'products/products.html', context)
 
 
@@ -29,8 +29,8 @@ def sub_details(request, product_id):
         for i in sorted(nutri_dict):
             nutriments[i] = nutri_dict[i]
         context = {'substitute': sub, 'nutriments': nutriments}
-    except Exception as e:
-        print(e)
+    except Exception:
+        raise Http404
     return render(request, 'products/product_details.html',
                   context)
 
@@ -45,8 +45,8 @@ def save_sub(request, product_id):
             Favorite.objects.create(user=request.user, product=sub)
         else:
             raise Exception
-    except Exception as e:
-        print(e)
+    except Exception:
+        raise Http404
     return redirect('favorites')
 
 
@@ -60,8 +60,8 @@ def favorite_sub(request):
             context = {'fav_subs': fav_subs}
         else:
             raise Exception
-    except Exception as e:
-        print(e)
+    except Exception:
+        raise Http404
     return render(request, 'products/favorites.html', context)
 
 
@@ -75,6 +75,6 @@ def delete_fav(request, product_id):
                                     product=product_id).delete()
         else:
             raise Exception
-    except Exception as e:
-        print(e)
+    except Exception:
+        raise Http404
     return redirect('favorites')

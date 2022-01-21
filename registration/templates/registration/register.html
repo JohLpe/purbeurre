@@ -10,40 +10,40 @@
             </div>
             <div class="row gx-4 gx-lg-5 justify-content-center mb-5">
                 <div class="col-lg-6">
-                    <form action="" method="POST">
+                    <form action="" method="POST" id="registration-form">
                         {% csrf_token %}
                         <div class="form-floating mb-3">
-                            <div class="form-control">
+                            <div class="form-control" id="form-reg-username">
                                 {{form.username}}
                             </div>
                             <label>Nom d'utilisateur</label>
                         </div>
                         <div class="form-floating mb-3">
-                            <div class="form-control">
+                            <div class="form-control" id="form-reg-firstname">
                                 {{form.first_name}}
                             </div>
                             <label>Prénom</label>
                         </div>
                         <div class="form-floating mb-3">
-                            <div class="form-control">
+                            <div class="form-control" id="form-reg-lastname">
                                 {{form.last_name}}
                             </div>
                             <label>Nom</label>
                         </div>
                         <div class="form-floating mb-3">
-                            <div class="form-control">
+                            <div class="form-control" id="form-reg-email">
                                 {{form.email}}
                             </div>
                             <label>E-mail</label>
                         </div>
                         <div class="form-floating mb-3">
-                            <div class="form-control">
+                            <div class="form-control" id="form-reg-pwd1">
                                 {{form.password1}}
                             </div>
                             <label>Mot de passe</label>
                         </div>
                         <div class="form-floating mb-3">
-                            <div class="form-control">
+                            <div class="form-control" id="form-reg-pwd2">
                                 {{form.password2}}
                             </div>
                             <label>Confirmation mot de passe</label>
