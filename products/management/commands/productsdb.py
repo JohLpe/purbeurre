@@ -1,4 +1,4 @@
-from django.core.management.base import BaseCommand, CommandError
+from django.core.management.base import BaseCommand
 from products.models import Category, Product
 from products.utils import AddProduct
 
@@ -22,9 +22,3 @@ class Command(BaseCommand):
                         off_url=one_product['url'],
                         img_url=one_product['image_url'])
             p.save()
-
-
-
-# faire fusion des deux commandes
-# faire la création sur une ligne Category.objects.create()
-# mettre des try

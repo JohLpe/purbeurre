@@ -12,7 +12,7 @@ class RegistrationPage(unittest.TestCase):
     def test_registration_page(self):
          
         driver = self.driver
-        driver.get("http://www.python.org")
+        driver.get("http://www.python.herokuapp.com/registration/")
  
         # assertion to confirm if title has python keyword in it
         self.assertIn("Python", driver.title)

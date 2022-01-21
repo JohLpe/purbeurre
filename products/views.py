@@ -1,8 +1,6 @@
-from email import message
-from django.http import Http404
 from django.shortcuts import render, redirect
 from ast import literal_eval
-from django.contrib import messages
+# from django.contrib import messages
 
 from .models import Product, Favorite
 
@@ -15,8 +13,8 @@ def search_sub(request):
         keyword = request.GET.get('q')
         queryset_list = Product.objects.filter(**{filter_type: keyword})
         context = {'found_substitute': queryset_list}
-    except Product.DoesNotExist:
-        raise Http404("Aucun produit n'a été trouvé.")
+    except Exception as e:
+        print(e)
     return render(request, 'products/products.html', context)
 
 
@@ -31,8 +29,8 @@ def sub_details(request, product_id):
         for i in sorted(nutri_dict):
             nutriments[i] = nutri_dict[i]
         context = {'substitute': sub, 'nutriments': nutriments}
-    except Product.DoesNotExist:
-        raise message("Ce produit n'existe pas.")
+    except Exception as e:
+        print(e)
     return render(request, 'products/product_details.html',
                   context)
 
@@ -45,11 +43,10 @@ def save_sub(request, product_id):
         if user.is_authenticated:
             sub = Product.objects.get(id=product_id)
             Favorite.objects.create(user=request.user, product=sub)
-            messages.success(request, 'Votre produit a bien été sauvegardé dans vos favoris!')
         else:
-            raise Exception 
+            raise Exception
     except Exception as e:
-        raise Http404("Aucune page n'a été trouvé.")
+        print(e)
     return redirect('favorites')
 
 
@@ -63,8 +60,8 @@ def favorite_sub(request):
             context = {'fav_subs': fav_subs}
         else:
             raise Exception
-    except Exception:
-        raise Http404("Aucune page n'a été trouvé.")
+    except Exception as e:
+        print(e)
     return render(request, 'products/favorites.html', context)
 
 
@@ -79,5 +76,5 @@ def delete_fav(request, product_id):
         else:
             raise Exception
     except Exception as e:
-        raise Http404("Aucune page n'a été trouvé.")
+        print(e)
     return redirect('favorites')
