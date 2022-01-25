@@ -12,16 +12,16 @@ def search_sub(request):
         filter_type = 'product_name__icontains'
         keyword = request.GET.get('q')
         qs_list = Product.objects.filter(**{filter_type: keyword})
-        # sub_qs = qs_list.all()[:1]
-        # sub_qs_value = list(sub_qs.values_list('nutriscore', flat=True))
-        # if sub_qs_value == ["A"]:
-        #     qs_list = qs_list.filter().exclude(nutriscore__range=("B", "E"))
-        # if sub_qs_value == ["B"]:
-        #     qs_list = qs_list.filter().exclude(nutriscore__range=("C", "E"))
-        # elif sub_qs_value == ["C"]:
-        #     qs_list = qs_list.filter().exclude(nutriscore__range=("D", "E"))
-        # elif sub_qs_value == ["D"] or sub_qs_value == ["E"]:
-        #     qs_list = qs_list.filter().exclude(nutriscore__exact="E")
+        sub_qs = qs_list.all()[:1]
+        sub_qs_value = list(sub_qs.values_list('nutriscore', flat=True))
+        if sub_qs_value == ["A"]:
+            qs_list = qs_list.filter().exclude(nutriscore__range=("B", "E"))
+        if sub_qs_value == ["B"]:
+            qs_list = qs_list.filter().exclude(nutriscore__range=("C", "E"))
+        elif sub_qs_value == ["C"]:
+            qs_list = qs_list.filter().exclude(nutriscore__range=("D", "E"))
+        elif sub_qs_value == ["D"] or sub_qs_value == ["E"]:
+            qs_list = qs_list.filter().exclude(nutriscore__exact="E")
         context = {'found_substitute': qs_list}
     except Exception:
         raise Http404
