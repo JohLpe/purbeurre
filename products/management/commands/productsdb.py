@@ -4,7 +4,7 @@ from products.utils import AddProduct
 
 
 class Command(BaseCommand):
-    help = 'adds categories to database'
+    help = 'adds categories and products to database'
 
     def handle(self, *args, **options):
         api_access = AddProduct()

@@ -23,6 +23,7 @@ handler500 = 'purbeurre.views.error_500'
 
 urlpatterns = [
     path('', views.index, name='homepage'),
+    path('mentions/', views.mentions, name='legalmentions'),
     path('admin/', admin.site.urls),
     path('products/', include('products.urls')),
     path('registration/', include('registration.urls')),
